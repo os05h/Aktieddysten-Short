@@ -1,10 +1,11 @@
 {
-    "Stocks":[
+    "Stocks": [
         {
-            "nr" : 1,
-            "MARKET" : "CRYPTO",
-            "ITEM" : "DOGE",
-            "MAX-Amount" : 10000
+            "nr": 1,
+            "MARKET": "CRYPTO",
+            "ITEM": "DOGE",
+            "MAX-Amount": 10000,
+            "Change": 0.00005
         }
     ]
 }

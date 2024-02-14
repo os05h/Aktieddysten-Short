@@ -345,6 +345,7 @@ class Aktiedysten_API:
         history = self.s.get(f"https://aktiedysten.dk/z/portfolio_assets?portfolio_id={self.portfolio_id}&lang=da").text
         history = json.loads(history)
         return history
+    
     def GetPrice(self, exchange, ticker, backtime):
         """
         Get Price of ticker.
@@ -363,11 +364,9 @@ class Aktiedysten_API:
         stock_data = stock_data.json()
 #        return stock_data
         back = len(stock_data['Encoded']['Data'])-1-backtime
-        stock = {
-            
-        }
+        stock = []
         for i in range(backtime):
-            stock.update({i:stock_data['Encoded']['Data'][back+i]})
+            stock.append(stock_data['Encoded']['Data'][back+i])
 #        del stock_data['Encoded']['Data'][len(stock_data['Encoded']['Data'])-1-backtime]
         return stock
 #        return stock_data['Encoded']['Data'][len(stock_data['Encoded']['Data'])-1]
