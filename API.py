@@ -345,3 +345,30 @@ class Aktiedysten_API:
         history = self.s.get(f"https://aktiedysten.dk/z/portfolio_assets?portfolio_id={self.portfolio_id}&lang=da").text
         history = json.loads(history)
         return history
+    def GetPrice(self, exchange, ticker, backtime):
+        """
+        Get Price of ticker.
+        :param exchange: Exchange
+        :param ticker: Ticker Symbol
+        :return:
+        """
+
+        exchange = exchange.upper()
+        ticker = ticker.upper()
+        
+        stock_data = requests.get(f"https://aktiedysten.dk/z/chart?q=s.i1d.full({exchange}~{ticker})")
+        if not stock_data.status_code == 200:
+            raise ValueError(
+                f"Error Ticker['{ticker}'] or Exchange['{exchange}'] does not exist.")
+        stock_data = stock_data.json()
+#        return stock_data
+        back = len(stock_data['Encoded']['Data'])-1-backtime
+        stock = {
+            
+        }
+        for i in range(backtime):
+            stock.update({i:stock_data['Encoded']['Data'][back+i]})
+#        del stock_data['Encoded']['Data'][len(stock_data['Encoded']['Data'])-1-backtime]
+        return stock
+#        return stock_data['Encoded']['Data'][len(stock_data['Encoded']['Data'])-1]
+        

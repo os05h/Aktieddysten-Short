@@ -8,9 +8,10 @@ private = json.load(open('private.json'))
 account = Aktiedysten_API(private['Username'], private['Password'], private['Game'])
 
 #Stocks Simpel buy
-#Stocks = json.load(open('Stock,json'))
-#for i in Stocks['Stocks']:
-#    if(i['nr'] == 1):
-#        Stock1 = i
+Stocks = json.load(open('Stock,json'))
+for i in Stocks['Stocks']:
+    if(i['nr'] == 1):
+        Stock1 = i
 #account.Buy(Stock1['MARKET'],Stock1['ITEM'],Stock1['MAX-Amount'],"STOCK")
 
+print(account.GetPrice(Stock1['MARKET'],Stock1['ITEM'], 10))
