@@ -25,21 +25,25 @@ while(True):
     else:
         curentpise = account.GetPrice(Stock1['MARKET'],Stock1['ITEM'], 10)
         print(curentpise)
-        print("avege: " + sum(curentpise)/len(curentpise))
-        if sum(curentpise)/len(curentpise) > Stock1["Change"] and bought == 0:
+        print(sum(curentpise)/len(curentpise))
+        if sum(curentpise)/len(curentpise) < Stock1["Change"] and bought == 0:
             bought = curentpise[len(curentpise)-1]
             print("")
             print("Buy")
             print(curentpise[len(curentpise)-1])
             print("")
 
-        if sum(curentpise)/len(curentpise) < Stock1["Change"] and not bought == 0:
+        if sum(curentpise)/len(curentpise) > Stock1["Change"] and not bought == 0:
             bought = 0
             print("")
             print("Sell")
             print(curentpise[len(curentpise)-1])
-            print("Profit" + (bought-curentpise[len(curentpise)-1]))
+            print(f"Profit: {(bought-curentpise[len(curentpise)-1])}")
             print("")
+            log = open("log.txt", "w")
+            log.write(f"Profit: {(bought-curentpise[len(curentpise)-1])}")
+            log.close()
+
 
 
     time.sleep(10)
