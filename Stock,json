@@ -1,0 +1,10 @@
+{
+    "Stocks":[
+        {
+            "nr" : 1,
+            "MARKET" : "CRYPTO",
+            "ITEM" : "DOGE",
+            "MAX-Amount" : 10000
+        }
+    ]
+}
