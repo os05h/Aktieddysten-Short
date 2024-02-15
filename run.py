@@ -8,6 +8,9 @@ private = json.load(open('private.json'))
 #Login
 account = Aktiedysten_API(private['Username'], private['Password'], private['Game'])
 
+log = open("log.txt", "w")
+log.close()
+
 #Stocks Simpel buy
 Stocks = json.load(open('Stock,json'))
 for i in Stocks['Stocks']:
@@ -16,7 +19,8 @@ for i in Stocks['Stocks']:
 #account.Buy(Stock1['MARKET'],Stock1['ITEM'],Stock1['MAX-Amount'],"STOCK")
 curentpise = account.GetPrice(Stock1['MARKET'],Stock1['ITEM'], 10)
 #print(f"Avage: {sum(curentpise)/len(curentpise)}  Prises: {curentpise}")
-bought = 0
+bought = 0.000000000001
+
 while(True):
 
     if account.GetCurrencyInBank() < 500000:
@@ -41,7 +45,7 @@ while(True):
             print(f"Profit: {curentpise[len(curentpise)-1]-bought}")
             print("")
             log = open("log.txt", "w")
-            log.writelines(f"Profit: {curentpise[len(curentpise)-1]-bought}")
+            log.write(f"Profit: {curentpise[len(curentpise)-1]-bought}")
             log.close()
             bought = 0
 
