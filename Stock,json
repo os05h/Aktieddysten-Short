@@ -1,11 +1,12 @@
 {
     "Stocks": [
         {
-            "nr": 1,
+            "Name": "DOGECOIN",
             "MARKET": "CRYPTO",
             "ITEM": "DOGE",
             "MAX-Amount": 10000,
-            "Change": 0.0003
+            "Change": 0.004,
+            "Average-Price-Tjeck": 10
         }
     ]
 }

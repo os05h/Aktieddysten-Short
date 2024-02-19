@@ -5,50 +5,68 @@ import time
 #Open private json
 private = json.load(open('private.json'))
 
-#Login
+#Create API object
 account = Aktiedysten_API(private['Username'], private['Password'], private['Game'])
 
-log = open("log.txt", "w")
-log.close()
 
-#Stocks Simpel buy
+#Get stock data
 Stocks = json.load(open('Stock,json'))
 for i in Stocks['Stocks']:
-    if(i['nr'] == 1):
+    if i['Name'] == "DOGECOIN":
         Stock1 = i
+
+
+#function to buy stock
 #account.Buy(Stock1['MARKET'],Stock1['ITEM'],Stock1['MAX-Amount'],"STOCK")
-curentpise = account.GetPrice(Stock1['MARKET'],Stock1['ITEM'], 10)
-#print(f"Avage: {sum(curentpise)/len(curentpise)}  Prises: {curentpise}")
-bought = 0.000000000001
 
-while(True):
+#function to sell stock
+#account.Sell(Stock1['MARKET'],Stock1['ITEM'],Stock1['MAX-Amount'],"STOCK")
 
-    if account.GetCurrencyInBank() < 500000:
-        break
-    else:
-        curentpise = account.GetPrice(Stock1['MARKET'],Stock1['ITEM'], 10)
-        print(f"Avage: {sum(curentpise)/len(curentpise)}  Prises: {curentpise}")
-        if not bought == 0:
-            print(f"selsfor profit: {curentpise[len(curentpise)-1]-bought}")
-        if sum(curentpise)/len(curentpise)-Stock1["Change"] > curentpise[len(curentpise)-1] and bought == 0:
-            bought = curentpise[len(curentpise)-1]
-            print("")
-            print("Buy")
-            print(curentpise[len(curentpise)-1])
-            print("")
+#function to get the price of a stock
+#account.GetPrice(Stock1['MARKET'],Stock1['ITEM'], 1)
 
-        if curentpise[len(curentpise)-1]-bought > Stock1["Change"] and not bought == 0:
-            
-            print("")
-            print("Sell")
-            print(curentpise[len(curentpise)-1])
-            print(f"Profit: {curentpise[len(curentpise)-1]-bought}")
-            print("")
-            log = open("log.txt", "w")
-            log.write(f"Profit: {curentpise[len(curentpise)-1]-bought}")
-            log.close()
-            bought = 0
+#function to get account balance
+#account.GetCurrencyInBank()
+
+#function to get portfolio
+#account.GetGameJson()
 
 
 
-    time.sleep(20)
+#account.Buy(Stock1['MARKET'],Stock1['ITEM'],Stock1['MAX-Amount'],"STOCK")
+#curentpise = account.GetPrice(Stock1['MARKET'],Stock1['ITEM'], 0)
+
+#Simpele stock buy and sell
+#loging the transactions to log.txt
+#buying 1 stock
+#selling 1 stock
+#only if there is a profit of 0,4% or more
+#and if the stock is not already bought
+#there should alvays be 500000 in the account
+#make sure to log the transactions to log.txt
+#make sure to make is it can be calibratedet white a json file
+#make sure to make it so it can be run in a loop
+
+#check if the stock is already bought 
+for b in account.GetGameJson()['Assets']:
+    if b['Exchange'] == Stock1['MARKET'] and b['Ticker'] == Stock1['ITEM']:
+        print("Stock already bought")
+        if int(b['ValueGrowth']) > int(Stock1['Change']):
+            print(f"Stock is up {b['ValueGrowth']}%")
+        else:
+            print(f"Stock is down {b['ValueGrowth']}%")
+
+while False:
+    #get Balance
+    balance = account.GetCurrencyInBank()
+    if balance > 500000:
+        #get average price of stock
+        for i in range(Stock1['Average-Price-Tjeck']):
+            sum = sum + account.GetPrice(Stock1['MARKET'],Stock1['ITEM'], i)
+        average = sum / Stock1['Average-Price-Tjeck']
+
+        #get current price of stock
+        curentpise = account.GetPrice(Stock1['MARKET'],Stock1['ITEM'], 0)
+
+        #if the stock is not already bought and the current price is less than the average price
+        

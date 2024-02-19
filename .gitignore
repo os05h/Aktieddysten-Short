@@ -12,6 +12,9 @@ private.json
 # log file
 log.txt
 
+#test file
+test.json
+
 # Distribution / packaging
 .Python
 build/
