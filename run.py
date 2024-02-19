@@ -1,6 +1,7 @@
 from API import Aktiedysten_API
 import json
 import time
+import datetime
 
 def main():
     """
@@ -34,6 +35,12 @@ def main():
             Stock1['Bought'] = curentpise * ((100 - int(b['ValueGrowth'])) / 100)
             print(f'You bought the stock for {Stock1["Bought"]}')
 
+    # Set the start time
+    start_time = datetime.datetime.now()
+
+    # Initialize total_profit variable
+    total_profit = 0
+
     while True:
         # Get Balance
         balance = account.GetCurrencyInBank()
@@ -65,16 +72,31 @@ def main():
             if Stock1['Bought-Price'] > 0 and curentpise > Stock1['Bought-Price'] and (curentpise - Stock1['Bought-Price']) / Stock1['Bought-Price'] > Stock1['Change'] / 100:
                 # Sell the stock
                 account.Sell(Stock1['MARKET'], Stock1['ITEM'], Stock1['MAX-Amount'], "STOCK")
+                # Calculate profit
+                profit = (curentpise - Stock1['Bought-Price']) * Stock1['MAX-Amount']
+                # Add profit to total profit
+                total_profit += profit
                 # Set the bought price to 0
                 Stock1['Bought-Price'] = 0
                 # Log the transaction
                 with open('log.txt', 'a') as f:
-                    f.write(f'Sell: {Stock1["ITEM"]} for {curentpise}\n')
+                    f.write(f'Sell: {Stock1["ITEM"]} for {curentpise} Profit: {profit}\n')
+                    f.write(f'Total profit: {total_profit}\n')
                 # Print the transaction
-                print(f'Sell: {Stock1["ITEM"]} For: {curentpise} profit: {(curentpise - Stock1["Bought-Price"]) * Stock1["MAX-Amount"]}')
+                print(f'Sell: {Stock1["ITEM"]} For: {curentpise} profit: {profit}')
 
-            # Wait 20 sec and check again
-            time.sleep(20)
+        # Check if 24 hours have passed
+        current_time = datetime.datetime.now()
+        elapsed_time = current_time - start_time
+        if elapsed_time.total_seconds() >= 24 * 60 * 60:
+            # Calculate total profit
+            total_profit = (curentpise - Stock1["Bought-Price"]) * Stock1["MAX-Amount"]
+            # Report the total profit
+            print(f'Total profit after 24 hours: {total_profit}')
+            break
+
+        # Wait 20 sec and check again
+        time.sleep(20)
 
 if __name__ == "__main__":
     main()
