@@ -15,9 +15,9 @@ Create a `private.json` file and fill out the information.
 }
 ```
 
-In the `Stock.json` file is where you spesifey the stock
+In the `Stock.json` file is where you specify the stock
 
-Eksampel
+Example
 ```json
 {
     "Stocks": [
@@ -42,3 +42,6 @@ for i in Stocks['Stocks']:
     if i['Name'] == "DOGECOIN":
         Stock1 = i
 ```
+
+
+The API to Aktiedysten is from [ChrisC0O Aktiedysten_API](https://github.com/ChrisC0O/Aktiedysten_API)
