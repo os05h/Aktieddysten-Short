@@ -4,9 +4,10 @@
             "Name": "DOGECOIN",
             "MARKET": "CRYPTO",
             "ITEM": "DOGE",
-            "MAX-Amount": 10000,
+            "MAX-Amount": 10,
             "Change": 0.004,
-            "Average-Price-Tjeck": 10
+            "Average-Price-Tjeck": 10,
+            "Bought-Price": 0
         }
     ]
 }
