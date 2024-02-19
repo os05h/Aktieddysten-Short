@@ -346,7 +346,39 @@ class Aktiedysten_API:
         history = json.loads(history)
         return history
     
+#    def GetPrice(self, exchange, ticker, backtime):
+#        """
+#        Get Price of ticker.
+#        :param exchange: Exchange
+#        :param ticker: Ticker Symbol
+#        :return:
+#        """
+#
+#        exchange = exchange.upper()
+#        ticker = ticker.upper()
+#        
+#        stock_data = requests.get(f"https://aktiedysten.dk/z/chart?q=s.i1d.full({exchange}~{ticker})")
+#        if not stock_data.status_code == 200:
+#            raise ValueError(
+#                f"Error Ticker['{ticker}'] or Exchange['{exchange}'] does not exist.")
+#        stock_data = stock_data.json()
+ #        return stock_data
+#        back = len(stock_data['Encoded']['Data'])-1-backtime
+#        stock = []
+#        for i in range(backtime):
+#            stock.append(stock_data['Encoded']['Data'][back+i])
+ #        del stock_data['Encoded']['Data'][len(stock_data['Encoded']['Data'])-1-backtime]
+#        return stock
+ #        return stock_data['Encoded']['Data'][len(stock_data['Encoded']['Data'])-1]
+        
+
     def GetPrice(self, exchange, ticker, backtime):
+        # this finction gets the price of a stock
+        # exchange: the exchange the stock is on
+        # ticker: the ticker of the stock
+        # backtime: the amount of time back you want the price of, in minutes
+        # returns the price of the stock
+        # 
         """
         Get Price of ticker.
         :param exchange: Exchange
@@ -356,18 +388,24 @@ class Aktiedysten_API:
 
         exchange = exchange.upper()
         ticker = ticker.upper()
+        backtime = int(backtime)
         
         stock_data = requests.get(f"https://aktiedysten.dk/z/chart?q=s.i1d.full({exchange}~{ticker})")
         if not stock_data.status_code == 200:
             raise ValueError(
                 f"Error Ticker['{ticker}'] or Exchange['{exchange}'] does not exist.")
         stock_data = stock_data.json()
-#        return stock_data
-        back = len(stock_data['Encoded']['Data'])-1-backtime
-        stock = []
-        for i in range(backtime):
-            stock.append(stock_data['Encoded']['Data'][back+i])
-#        del stock_data['Encoded']['Data'][len(stock_data['Encoded']['Data'])-1-backtime]
-        return stock
-#        return stock_data['Encoded']['Data'][len(stock_data['Encoded']['Data'])-1]
+        # the stock data is a json file
+        # the json file contains a list of the prices of the stock
+        # the 'Encoded' has a 'BeginsAt' key that contains the time of the first price
+        # the 'Encoded' has a 'Interval' key that contains the time between each price
+        # the 'Data' key contains the prices of the stock
+        # the last data point is the most recent price
+
+        return stock_data['Encoded']['Data'][len(stock_data['Encoded']['Data'])-1-backtime]
+        # returns the price of the stock backtime minutes ago
+    
+        
+
+
         
