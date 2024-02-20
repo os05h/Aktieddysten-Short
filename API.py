@@ -345,32 +345,6 @@ class Aktiedysten_API:
         history = self.s.get(f"https://aktiedysten.dk/z/portfolio_assets?portfolio_id={self.portfolio_id}&lang=da").text
         history = json.loads(history)
         return history
-    
-#    def GetPrice(self, exchange, ticker, backtime):
-#        """
-#        Get Price of ticker.
-#        :param exchange: Exchange
-#        :param ticker: Ticker Symbol
-#        :return:
-#        """
-#
-#        exchange = exchange.upper()
-#        ticker = ticker.upper()
-#        
-#        stock_data = requests.get(f"https://aktiedysten.dk/z/chart?q=s.i1d.full({exchange}~{ticker})")
-#        if not stock_data.status_code == 200:
-#            raise ValueError(
-#                f"Error Ticker['{ticker}'] or Exchange['{exchange}'] does not exist.")
-#        stock_data = stock_data.json()
- #        return stock_data
-#        back = len(stock_data['Encoded']['Data'])-1-backtime
-#        stock = []
-#        for i in range(backtime):
-#            stock.append(stock_data['Encoded']['Data'][back+i])
- #        del stock_data['Encoded']['Data'][len(stock_data['Encoded']['Data'])-1-backtime]
-#        return stock
- #        return stock_data['Encoded']['Data'][len(stock_data['Encoded']['Data'])-1]
-        
 
     def GetPrice(self, exchange, ticker, backtime):
         # this finction gets the price of a stock
@@ -404,8 +378,18 @@ class Aktiedysten_API:
 
         return stock_data['Encoded']['Data'][len(stock_data['Encoded']['Data'])-1-backtime]
         # returns the price of the stock backtime minutes ago
-    
-        
-
-
-        
+    def TjeckStock(self, gamejson, Stock1, curentpise):
+        # this function checks if a stock exists
+        # exchange: the exchange the stock is on
+        # ticker: the ticker of the stock
+        # returns True if the stock exists and False if it does not
+        for b in gamejson['Assets']:
+            if b['Exchange'] == Stock1['MARKET'] and b['Ticker'] == Stock1['ITEM']:
+                print("Stock already bought")
+                if int(b['ValueGrowth']) > int(Stock1['Change']):
+                    print(f"Stock is up {b['ValueGrowth']}%")
+                else:
+                    print(f"Stock is down {b['ValueGrowth']}%")
+                Stock1['Bought-Price'] = curentpise * ((100 - int(b['ValueGrowth'])) / 100)
+                print(f'You bought the stock for {Stock1["Bought-Price"]}')
+                return Stock1['Bought-Price']

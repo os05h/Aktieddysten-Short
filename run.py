@@ -24,16 +24,9 @@ def main():
             Stock1 = i
 
     # Check if the stock is already bought
-    for b in account.GetGameJson()['Assets']:
-        if b['Exchange'] == Stock1['MARKET'] and b['Ticker'] == Stock1['ITEM']:
-            print("Stock already bought")
-            if int(b['ValueGrowth']) > int(Stock1['Change']):
-                print(f"Stock is up {b['ValueGrowth']}%")
-            else:
-                print(f"Stock is down {b['ValueGrowth']}%")
-            curentpise = account.GetPrice(Stock1['MARKET'], Stock1['ITEM'], 0)
-            Stock1['Bought'] = curentpise * ((100 - int(b['ValueGrowth'])) / 100)
-            print(f'You bought the stock for {Stock1["Bought"]}')
+    GameJson = account.GetGameJson()
+    curentpise = account.GetPrice(Stock1['MARKET'], Stock1['ITEM'], 0)
+    print(account.TjeckStock(GameJson, Stock1, curentpise))
 
     # Set the start time
     start_time = datetime.datetime.now()
@@ -41,10 +34,11 @@ def main():
     # Initialize total_profit variable
     total_profit = 0
 
+    
     while True:
         # Get Balance
         balance = account.GetCurrencyInBank()
-        if balance > 500000:
+        if balance > 990000:
             # Get average price of stock
             sum = 0
             for i in range(Stock1['Average-Price-Tjeck']):
@@ -53,6 +47,9 @@ def main():
 
             # Get current price of stock
             curentpise = account.GetPrice(Stock1['MARKET'], Stock1['ITEM'], 0)
+
+            # Get game json
+            GameJson = account.GetGameJson()
 
             # If the stock is not already bought and the current price is less than the average price
             # and the stock is down 0.4% or more
