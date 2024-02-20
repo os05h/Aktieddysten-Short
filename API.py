@@ -393,3 +393,6 @@ class Aktiedysten_API:
                 Stock1['Bought-Price'] = curentpise * ((100 - int(b['ValueGrowth'])) / 100)
                 print(f'You bought the stock for {Stock1["Bought-Price"]}')
                 return Stock1['Bought-Price']
+            else:
+                print("Stock not bought")
+                return 0
