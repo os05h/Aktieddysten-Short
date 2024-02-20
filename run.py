@@ -38,7 +38,7 @@ def main():
     while True:
         # Get Balance
         balance = account.GetCurrencyInBank()
-        if balance > 990000:
+        if balance > 500000:
             # Get average price of stock
             sum = 0
             for i in range(Stock1['Average-Price-Tjeck']):
